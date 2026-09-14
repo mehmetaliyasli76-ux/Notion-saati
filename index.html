@@ -16,23 +16,54 @@
   }
   .card {
     text-align: center;
-    padding: 2px 20px;
   }
   .time {
-    font-size: calc(clamp(24px, 6vw, 48px) * var(--scale, 1));
+    font-size: 15px;
     font-weight: 700;
     color: #f5f5f5;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     font-variant-numeric: tabular-nums;
   }
   .time .sec {
-    font-size: 0.5em;
+    font-size: 0.6em;
     color: #6b7280;
     vertical-align: super;
   }
   .date {
-    margin-top: 0px;
-    font-size: calc(clamp(10px, 2vw, 14px) * var(--scale, 1));
+    margin-top: 1px;
+    font-size: 8px;
     color: #9ca3af;
     text-transform: capitalize;
-    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="time" id="time">--:--<span class="sec">--</span></div>
+    <div class="date" id="date">-</div>
+  </div>
+
+<script>
+  const gunler = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+  const aylar = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+
+  function pad(n) { return n.toString().padStart(2, "0"); }
+
+  function guncelle() {
+    const now = new Date();
+    const saat = pad(now.getHours());
+    const dakika = pad(now.getMinutes());
+    const saniye = pad(now.getSeconds());
+
+    document.getElementById("time").innerHTML =
+      `${saat}:${dakika}<span class="sec">${saniye}</span>`;
+
+    document.getElementById("date").textContent =
+      `${gunler[now.getDay()]}, ${now.getDate()} ${aylar[now.getMonth()]} ${now.getFullYear()}`;
+  }
+
+  guncelle();
+  setInterval(guncelle, 1000);
+</script>
+</body>
+</html>
