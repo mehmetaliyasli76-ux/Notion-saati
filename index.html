@@ -19,7 +19,7 @@
     padding: 2px 20px;
   }
   .time {
-    font-size: clamp(24px, 6vw, 48px);
+    font-size: calc(clamp(24px, 6vw, 48px) * var(--scale, 1));
     font-weight: 700;
     color: #f5f5f5;
     letter-spacing: 1px;
@@ -32,10 +32,22 @@
   }
   .date {
     margin-top: 0px;
-    font-size: clamp(10px, 2vw, 14px);
+    font-size: calc(clamp(10px, 2vw, 14px) * var(--scale, 1));
     color: #9ca3af;
     text-transform: capitalize;
     letter-spacing: 1px;
+  }
+  .ayar {
+    position: fixed;
+    top: 4px;
+    right: 4px;
+    opacity: 0.25;
+    transition: opacity 0.2s;
+  }
+  .ayar:hover, .ayar:focus-within { opacity: 1; }
+  .ayar input {
+    width: 60px;
+    vertical-align: middle;
   }
 </style>
 </head>
@@ -43,6 +55,9 @@
   <div class="card">
     <div class="time" id="time">--:--<span class="sec">--</span></div>
     <div class="date" id="date">-</div>
+  </div>
+  <div class="ayar">
+    <input type="range" id="boyut" min="0.4" max="1.6" step="0.05" value="1">
   </div>
 
 <script>
@@ -66,6 +81,17 @@
 
   guncelle();
   setInterval(guncelle, 1000);
+
+  const kaydirici = document.getElementById("boyut");
+  const kayitli = localStorage.getItem("saat-boyut");
+  if (kayitli) {
+    kaydirici.value = kayitli;
+    document.documentElement.style.setProperty("--scale", kayitli);
+  }
+  kaydirici.addEventListener("input", () => {
+    document.documentElement.style.setProperty("--scale", kaydirici.value);
+    localStorage.setItem("saat-boyut", kaydirici.value);
+  });
 </script>
 </body>
 </html>
